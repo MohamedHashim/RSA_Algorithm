@@ -13,10 +13,9 @@ def get_u_r(num):
 
     return (u, num)
 
-def modular_pow(base, exponent, modulus):
+def modular_pow(base, exponent, modulus): #square and multiply
     if modulus == 1:
         return 0
-    # Assert :: (modulus - 1) * (modulus - 1) does not overflow base
     result = 1
     base = base % modulus
     while exponent > 0:
@@ -78,9 +77,6 @@ def inverse(ra, rb):
                 return mult[0][1] % modulos
             else:
                 return -1
-            break
-        # else:
-        # print("R" + str(i) + " = " + str(mult[1][0]) + " * R" + str(i-2) + " + " + str(mult[1][1]) + " * R" + str(i-1))
 
 def CRT(y, d, p, q):
     n = p * q
@@ -111,6 +107,7 @@ def CRT(y, d, p, q):
     # print("x = ", x, "mod " + str(n))
     return x
 
+
 def msg_to_int(msg):
     int_msg = ""
     for ch in msg:
@@ -120,6 +117,7 @@ def msg_to_int(msg):
         int_msg += pre
 
     return int(int_msg, 2)
+
 
 def int_to_msg(i):
     bin_format = "{0:7b}".format(i)
@@ -136,6 +134,7 @@ def encryption(msg, e, n):
     encrypted = modular_pow(int_msg, e, n)
     # print(setuptime + '\n Encrypted Message = ', encrypted)
     return encrypted
+
 
 
 def decryption(msg, d, p, q):
@@ -167,7 +166,7 @@ def RSA_Init(nbits=512):  # setup
     }
 
 
-RSAparams = RSA_Init(512)  
+RSAparams = RSA_Init(512)
 
 root = Tk()
 
@@ -176,24 +175,24 @@ input_frame = Frame(root)
 output_frame = Frame(root)
 
 input_label = Label(input_frame, text="Input: ")
-input_msg = Text(input_frame, height=4, width=128)
+input_msg = Text(input_frame, height=4, width=100)
 
 output_label = Label(output_frame, text="Output: ")
-output_msg = Text(output_frame, height=4, width=128)
+output_msg = Text(output_frame, height=4, width=100)
 
 encrypt = Button(actions_frame, text="Encrypt", command=lambda: output_msg.insert("0.0", encryption(
-    input_msg.get("0.0", "128.4").strip(), RSAparams['e'], RSAparams['n'])))
+    input_msg.get("0.0", "128.0").strip(), RSAparams['e'], RSAparams['n'])))
 decrypt = Button(actions_frame, text="Decrypt", command=lambda: output_msg.insert("0.0", (decryption(
-    input_msg.get("0.0", "128.4").strip(), RSAparams['d'], RSAparams['p'], RSAparams['q']))))
+    input_msg.get("0.0", "128.0").strip(), RSAparams['d'], RSAparams['p'], RSAparams['q']))))
 
 
-input_label.pack(side=LEFT)
+input_label.pack(side=TOP)
 input_msg.pack(side=LEFT)
 
 encrypt.pack(side=LEFT)
 decrypt.pack(side=LEFT)
 
-output_label.pack(side=LEFT)
+output_label.pack(side=TOP)
 output_msg.pack(side=LEFT)
 
 input_frame.pack()
